@@ -19,6 +19,7 @@ var livereload = require('gulp-livereload');
 var fontello = require('gulp-fontello');
 var del = require('del');
 var html2js = require('gulp-html2js');
+var KarmaServer = require('karma').Server;
 
 var readAppConfig = require('./gulp/readappconfig');
 var buildAppConfig = require('./gulp/buildappconfig');
@@ -206,9 +207,9 @@ gulp.task('js:libs', ['appconfig'], function() {
 });
 
 gulp.task('js:app', ['appconfig'], function() {
-
     return appConfig.then(function(APPCONFIG) {
         return streamAsPromise(gulp.src([
+            '!./src/js/**/*.spec.js',
             './src/js/**/*.js'
         ])
             .pipe(concat('app.js'))
@@ -374,6 +375,13 @@ gulp.task('watch', function() {
     gulp.watch(['./src/lib/**/*.js'], ['js:libs:livereload', 'js:sdk:livereload']);
     gulp.watch(['./src/templates/**/*.html', './src/js/**/*.html', './src/translations/translations/**/*', './src/index.html'], ['templates:livereload']);
     gulp.watch(['./appconfig.json', './appconfig.default.json'], ['default:livereload']);
+});
+
+gulp.task('test', function(done) {
+    new KarmaServer({
+            configFile: __dirname + '/karma.config.js',
+            singleRun: true
+    }, done).start();
 });
 
 gulp.task('sass:livereload', _.merge(['sass'], doSRI ? ['templates:index'] : []), function() {
