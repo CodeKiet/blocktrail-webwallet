@@ -74,8 +74,6 @@
         var self = this;
         var uniqueIdentifier = self._getWalletUniqueIdentifier(networkType, identifier);
 
-        console.log("networkType:", !networkType);
-
         if (!networkType) {
             throw new TypeError("Blocktrail core module, wallets manager service. Network type should be defined.");
         }
@@ -91,7 +89,7 @@
                 identifier = wallets[0].identifier;
                 uniqueIdentifier = self._getWalletUniqueIdentifier(networkType, identifier);
             } else {
-                throw new TypeError("Blocktrail core module, wallets manager service. No " + identifier + " wallet for " + networkType + " network type.");
+                throw new TypeError("Blocktrail core module, wallets manager service. No wallets for " + networkType + " network type.");
             }
         }
 
@@ -134,7 +132,6 @@
             if(self._activeWallet.getReadOnlyWalletData().uniqueIdentifier !== uniqueIdentifier) {
                 // Disable polling for active wallet and enable polling for new active wallet
                 self._activeWallet.disablePolling();
-
                 // Check the wallet in the buffer
                 if(self._wallets[uniqueIdentifier]) {
                     self._wallets[uniqueIdentifier].enablePolling();
@@ -190,7 +187,7 @@
 
         return !!self._walletsList.filter(function(item) {
             return item.uniqueIdentifier === uniqueIdentifier;
-        });
+        }).length;
     };
 
     /**
