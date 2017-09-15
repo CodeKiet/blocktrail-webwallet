@@ -34,7 +34,8 @@ angular.module('blocktrail.wallet')
             JPY: {code: "JPY", symbol: "¥"},
             KRW: {code: "KRW", symbol: "₩"},
             COP: {code: "COP", symbol: "$"},
-            GHS: {code: "GHS", symbol: "GH¢"}
+            GHS: {code: "GHS", symbol: "GH¢"},
+            PLN: {code: "PLN", symbol: "zł"}
         };
 
         self.currencies = {};
